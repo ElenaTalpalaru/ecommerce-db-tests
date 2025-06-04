@@ -1,6 +1,6 @@
 ﻿# ECommerce Database Tests
 
-A comprehensive test suite for an eCommerce application using Entity Framework Core with PostgreSQL, built with .NET 8 and NUnit.
+A comprehensive test suite for an eCommerce application using Entity Framework Core with PostgreSQL, built with .NET 9 and NUnit.
 
 ## Features
 
