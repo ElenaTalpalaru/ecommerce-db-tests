@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: ecommerce_test_db
+    environment:
+      POSTGRES_DB: ecommerce_db
+      POSTGRES_USER: ecommerce_user
+      POSTGRES_PASSWORD: ecommerce_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecommerce_user -d ecommerce_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # .NET Test Application
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: ecommerce_tests
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=ecommerce_db;Username=ecommerce_user;Password=ecommerce_password
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./TestResults:/app/TestResults
+    command: ["dotnet", "test", "--logger", "trx;LogFileName=TestResults.trx", "--results-directory", "/app/TestResults"]
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ecommerce_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
