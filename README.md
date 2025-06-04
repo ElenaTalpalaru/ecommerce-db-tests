@@ -13,7 +13,7 @@ A comprehensive test suite for an eCommerce application using Entity Framework C
 ## Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (for local development)
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (for local development)
 
 ## Quick Start
 
