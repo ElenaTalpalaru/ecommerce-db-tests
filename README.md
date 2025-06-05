@@ -205,6 +205,3 @@ cat TestResults/TestResults.trx
 # Default ports: 5432 (PostgreSQL), 8080 (pgAdmin)
 ```
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
